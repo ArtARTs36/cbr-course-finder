@@ -83,6 +83,10 @@ class CourseCollection implements Contracts\CourseCollection
 
     public function first(): ?Course
     {
+        if (! isset($this->courses[array_key_first($this->courses)])) {
+            return null;
+        }
+
         return $this->courses[array_key_first($this->courses)];
     }
 

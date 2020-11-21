@@ -11,4 +11,6 @@ interface CourseCollection extends \ArrayAccess, \Countable, \IteratorAggregate
     public function first(): ?Course;
 
     public function getActualDate(): \DateTimeInterface;
+
+    public function getByName(string $name): ?Course;
 }
