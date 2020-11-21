@@ -1,0 +1,23 @@
+{
+    "name": "artarts36/cbr-course-finder",
+    "description": "CBR Course Finder",
+    "type": "library",
+    "require": {
+        "php": ">= 7.2",
+        "guzzlehttp/guzzle": ">= 6.0",
+        "ext-json": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "aukrainskiy",
+            "email": "aukrainskiy@phoenixit.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "ArtARTs36\\CbrCourseFinder\\": "src/"
+        }
+    }
+}
