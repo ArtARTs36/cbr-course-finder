@@ -8,7 +8,7 @@ class Finder implements Contracts\Finder
 {
     public const DEFAULT_BASE_URL = 'https://www.cbr-xml-daily.ru/';
     protected const URL_CURRENT_DATE = self::DEFAULT_BASE_URL . 'daily_json.js';
-    protected const DATE_FORMAT = 'Y\m\d';
+    protected const DATE_FORMAT = 'Y/m/d';
 
     protected $client;
 
