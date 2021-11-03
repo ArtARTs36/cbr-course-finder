@@ -13,4 +13,9 @@ interface CourseCollection extends \ArrayAccess, \Countable, \IteratorAggregate
     public function getActualDate(): \DateTimeInterface;
 
     public function getByName(string $name): ?Course;
+
+    /**
+     * @param array<string> $codes
+     */
+    public function filterByIsoCodes(array $codes): CourseCollection;
 }

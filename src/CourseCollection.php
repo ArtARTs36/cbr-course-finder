@@ -56,6 +56,13 @@ class CourseCollection implements Contracts\CourseCollection
         })->first();
     }
 
+    public function filterByIsoCodes(array $codes): Contracts\CourseCollection
+    {
+        return $this->filter(function (Course $course) use ($codes) {
+            return in_array($course->getIsoCode(), $codes);
+        });
+    }
+
     public function getByName(string $name): ?Course
     {
         return $this->filter(function (Course $course) use ($name) {
@@ -76,7 +83,10 @@ class CourseCollection implements Contracts\CourseCollection
         return count($this->courses);
     }
 
-    public function getIterator()
+    /**
+     * @return iterable<Course>
+     */
+    public function getIterator(): iterable
     {
         return new \ArrayIterator($this->courses);
     }
@@ -97,7 +107,7 @@ class CourseCollection implements Contracts\CourseCollection
 
     public function isEmpty(): bool
     {
-        return empty($this->courses);
+        return $this->count() === 0;
     }
 
     protected function newCollection(array $courses): self
