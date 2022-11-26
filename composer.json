@@ -3,9 +3,17 @@
     "description": "CBR Course Finder",
     "type": "library",
     "require": {
-        "php": ">= 7.2",
+        "php": "^8.0",
+        "ext-json": "*",
+        "psr/http-client": "1.0.x-dev",
+        "guzzlehttp/psr7": "2.4.x-dev",
+        "psr/http-client-implementation": "^1.0"
+    },
+    "require-dev": {
         "guzzlehttp/guzzle": ">= 6.0",
-        "ext-json": "*"
+        "phpstan/phpstan": "1.9.x-dev",
+        "artarts36/php-cs-fixer-good-fixers": "dev-master",
+        "phpunit/phpunit": "^9.5"
     },
     "license": "MIT",
     "authors": [
@@ -19,5 +27,21 @@
         "psr-4": {
             "ArtARTs36\\CbrCourseFinder\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ArtARTs36\\CbrCourseFinder\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "php-cs-fixer fix --dry-run --verbose --diff --ansi"
+        ],
+        "stat-analyse": [
+            "./vendor/bin/phpstan analyse"
+        ],
+        "test": [
+            "./vendor/bin/phpunit -v --coverage-text --colors=always --configuration phpunit.xml"
+        ]
     }
 }

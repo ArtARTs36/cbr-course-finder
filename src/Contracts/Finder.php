@@ -4,5 +4,9 @@ namespace ArtARTs36\CbrCourseFinder\Contracts;
 
 interface Finder
 {
-    public function getOnDate(\DateTimeInterface $date): CourseCollection;
+    /**
+     * Find courses on date.
+     * @throws SearchException
+     */
+    public function findOnDate(\DateTimeInterface $date): CourseCollection;
 }
