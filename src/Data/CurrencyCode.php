@@ -1,6 +1,6 @@
 <?php
 
-namespace ArtARTs36\CbrCourseFinder;
+namespace ArtARTs36\CbrCourseFinder\Data;
 
 class CurrencyCode
 {

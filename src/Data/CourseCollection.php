@@ -1,52 +1,19 @@
 <?php
 
-namespace ArtARTs36\CbrCourseFinder;
+namespace ArtARTs36\CbrCourseFinder\Data;
+
+use ArtARTs36\CbrCourseFinder\Contracts;
 
 class CourseCollection implements Contracts\CourseCollection
 {
-    protected $courses;
-
-    protected $date;
-
     /**
      * @param array<Course> $courses
      */
-    public function __construct(array $courses, \DateTimeInterface $date)
-    {
-        $this->courses = $courses;
-        $this->date = $date;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset)
-    {
-        return array_key_exists($offset, $this->courses);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
-    {
-        return $this->courses[$offset];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->courses[$offset] = $value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->courses[$offset]);
+    public function __construct(
+        private array $courses,
+        private \DateTimeInterface $date,
+    ) {
+        //
     }
 
     public function getByIsoCode(string $isoCode): ?Course
@@ -58,8 +25,14 @@ class CourseCollection implements Contracts\CourseCollection
 
     public function filterByIsoCodes(array $codes): Contracts\CourseCollection
     {
-        return $this->filter(function (Course $course) use ($codes) {
-            return in_array($course->getIsoCode(), $codes);
+        $codeMap = [];
+
+        foreach ($codes as $code) {
+            $codeMap[$code] = true;
+        }
+
+        return $this->filter(function (Course $course) use ($codeMap) {
+            return isset($codeMap[$course->getIsoCode()]);
         });
     }
 
@@ -78,22 +51,22 @@ class CourseCollection implements Contracts\CourseCollection
     /**
      * @inheritDoc
      */
-    public function count()
+    public function count(): int
     {
         return count($this->courses);
     }
 
     /**
-     * @return iterable<Course>
+     * @return \Traversable<Course>
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->courses);
     }
 
     public function first(): ?Course
     {
-        if (! isset($this->courses[array_key_first($this->courses)])) {
+        if ($this->isEmpty()) {
             return null;
         }
 
@@ -110,8 +83,20 @@ class CourseCollection implements Contracts\CourseCollection
         return $this->count() === 0;
     }
 
+    public function mapOnIsoCode(): array
+    {
+        /** @var array<string, Course> $courses */
+        $courses = [];
+
+        foreach ($this->courses as $course) {
+            $courses[$course->getIsoCode()] = $course;
+        }
+
+        return $courses;
+    }
+
     protected function newCollection(array $courses): self
     {
-        return new static($courses, $this->date);
+        return new self($courses, $this->date);
     }
 }

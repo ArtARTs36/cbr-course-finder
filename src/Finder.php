@@ -2,60 +2,60 @@
 
 namespace ArtARTs36\CbrCourseFinder;
 
-use GuzzleHttp\ClientInterface;
+use ArtARTs36\CbrCourseFinder\Data\CourseCollection;
+use ArtARTs36\CbrCourseFinder\Exception\InvalidDataException;
+use GuzzleHttp\Psr7\Request;
+use Psr\Http\Client\ClientInterface;
 
 class Finder implements Contracts\Finder
 {
-    public const DEFAULT_BASE_URL = 'https://www.cbr-xml-daily.ru/';
-    protected const URL_CURRENT_DATE = self::DEFAULT_BASE_URL . 'daily_json.js';
-    protected const DATE_FORMAT = 'Y/m/d';
+    private Contracts\UrlResolver $urlResolver;
 
-    protected $client;
+    private Contracts\Hydrator $hydrator;
 
-    protected $baseUrl;
+    public function __construct(
+        private ClientInterface $client,
+        ?Contracts\UrlResolver $urlResolver = null,
+        ?Contracts\Hydrator $hydrator = null
+    ) {
+        $this->urlResolver = $urlResolver ?? new UrlResolver();
+        $this->hydrator = $hydrator ?? new Hydrator();
+    }
 
-    public function __construct(ClientInterface $client, string $baseUrl = self::DEFAULT_BASE_URL)
+    public function findOnDate(\DateTimeInterface $date): Contracts\CourseCollection
     {
-        $this->client = $client;
-        $this->baseUrl = $baseUrl;
+        return $this
+            ->responseToCollection(
+                json_decode(
+                    $this->sendRequest($this->urlResolver->resolve($date)),
+                    true,
+                )
+            );
     }
 
     /**
-     * @throws \Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function getOnDate(\DateTimeInterface $date): Contracts\CourseCollection
-    {
-        return $this->responseToCollection(json_decode($this->sendRequest($this->resolveUrl($date)), true));
-    }
-
-    protected function resolveUrl(\DateTimeInterface $date): string
-    {
-        $date = $date->format(static::DATE_FORMAT);
-
-        return $date === date(static::DATE_FORMAT) ?
-            static::URL_CURRENT_DATE : $this->baseUrl . "/archive/{$date}/daily_json.js";
-    }
-
-    /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Exception\NetworkException
      */
     protected function sendRequest(string $url): string
     {
-        return $this->client->request('GET', $url)->getBody()->getContents();
+        try {
+            return $this
+                ->client
+                ->sendRequest(new Request('GET', $url))
+                ->getBody()
+                ->getContents();
+        } catch (\Throwable $e) {
+            throw new Exception\NetworkException('Search failed: ' . $e->getMessage(), previous: $e);
+        }
     }
 
     /**
-     * @throws \Exception
+     * @throws InvalidDataException
      */
     protected function responseToCollection(array $response): CourseCollection
     {
         $date = new \DateTime($response['Date']);
 
-        $courses = array_map(function (array $item) {
-            return new Course($item['CharCode'], $item['Name'], $item['Nominal'], $item['Value'], $item['Previous']);
-        }, $response['Valute']);
-
-        return new CourseCollection(array_values($courses), $date);
+        return new CourseCollection($this->hydrator->hydrate($response), $date);
     }
 }
