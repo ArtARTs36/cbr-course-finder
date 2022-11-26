@@ -12,7 +12,8 @@
     },
     "require-dev": {
         "guzzlehttp/guzzle": ">= 6.0",
-        "phpstan/phpstan": "1.9.x-dev"
+        "phpstan/phpstan": "1.9.x-dev",
+        "artarts36/php-cs-fixer-good-fixers": "dev-master"
     },
     "license": "MIT",
     "authors": [
@@ -33,6 +34,9 @@
         }
     },
     "scripts": {
+        "lint": [
+            "php-cs-fixer fix --dry-run --verbose --diff --ansi"
+        ],
         "stat-analyse": [
             "./vendor/bin/phpstan analyse"
         ],

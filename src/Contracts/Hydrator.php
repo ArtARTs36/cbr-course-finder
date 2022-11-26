@@ -8,6 +8,7 @@ use ArtARTs36\CbrCourseFinder\Exception\InvalidDataException;
 interface Hydrator
 {
     /**
+     * Hydrate raw response to array of Course.
      * @param array<mixed> $raw
      * @return array<Course>
      * @throws InvalidDataException
