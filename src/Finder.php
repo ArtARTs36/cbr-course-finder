@@ -3,6 +3,7 @@
 namespace ArtARTs36\CbrCourseFinder;
 
 use ArtARTs36\CbrCourseFinder\Data\CourseCollection;
+use ArtARTs36\CbrCourseFinder\Exception\CourseNotSetException;
 use ArtARTs36\CbrCourseFinder\Exception\InvalidDataException;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Client\ClientInterface;
@@ -55,9 +56,14 @@ class Finder implements Contracts\Finder
     /**
      * @param array<mixed> $response
      * @throws InvalidDataException
+     * @throws CourseNotSetException
      */
     protected function responseToCollection(array $response): CourseCollection
     {
+        if (isset($response['code']) && $response['code'] === 404) {
+            throw new CourseNotSetException();
+        }
+
         if (! isset($response['Date']) || ! is_string($response['Date'])) {
             throw new InvalidDataException('Invalid response.Date');
         }
