@@ -7,13 +7,13 @@
         "ext-json": "*",
         "psr/http-client": "1.0.x-dev",
         "guzzlehttp/psr7": "2.4.x-dev",
-        "psr/http-client-implementation": "^1.0",
-        "phpunit/phpunit": "^9.5"
+        "psr/http-client-implementation": "^1.0"
     },
     "require-dev": {
         "guzzlehttp/guzzle": ">= 6.0",
         "phpstan/phpstan": "1.9.x-dev",
-        "artarts36/php-cs-fixer-good-fixers": "dev-master"
+        "artarts36/php-cs-fixer-good-fixers": "dev-master",
+        "phpunit/phpunit": "^9.5"
     },
     "license": "MIT",
     "authors": [
