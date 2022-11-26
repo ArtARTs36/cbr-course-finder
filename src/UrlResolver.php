@@ -2,7 +2,7 @@
 
 namespace ArtARTs36\CbrCourseFinder;
 
-class UrlResolver implements Contracts\UrlResolver
+final class UrlResolver implements Contracts\UrlResolver
 {
     private const DEFAULT_BASE_URL = 'https://www.cbr-xml-daily.ru/';
     private const DATE_FORMAT = 'Y/m/d';
@@ -16,10 +16,10 @@ class UrlResolver implements Contracts\UrlResolver
 
     public function resolve(\DateTimeInterface $date): string
     {
-        $date = $date->format(static::DATE_FORMAT);
+        $date = $date->format(self::DATE_FORMAT);
 
-        return $date === date(static::DATE_FORMAT) ?
-            static::URL_CURRENT_DATE :
+        return $date === date(self::DATE_FORMAT) ?
+            self::URL_CURRENT_DATE :
             $this->baseUrl . "/archive/{$date}/daily_json.js";
     }
 }

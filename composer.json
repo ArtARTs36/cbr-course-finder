@@ -10,7 +10,8 @@
         "psr/http-client-implementation": "^1.0"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": ">= 6.0"
+        "guzzlehttp/guzzle": ">= 6.0",
+        "phpstan/phpstan": "1.9.x-dev"
     },
     "license": "MIT",
     "authors": [
@@ -24,5 +25,10 @@
         "psr-4": {
             "ArtARTs36\\CbrCourseFinder\\": "src/"
         }
+    },
+    "scripts": {
+        "stat-analyse": [
+            "./vendor/bin/phpstan analyse"
+        ]
     }
 }

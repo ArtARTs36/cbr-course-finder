@@ -32,7 +32,7 @@ class CourseCollection implements Contracts\CourseCollection
         }
 
         return $this->filter(function (Course $course) use ($codeMap) {
-            return isset($codeMap[$course->getIsoCode()]);
+            return isset($codeMap[$course->isoCode]);
         });
     }
 
@@ -43,7 +43,10 @@ class CourseCollection implements Contracts\CourseCollection
         })->first();
     }
 
-    public function filter(\Closure $callback = null): self
+    /**
+     * @param callable(Course): bool $callback
+     */
+    public function filter(callable $callback): self
     {
         return $this->newCollection(array_filter($this->courses, $callback));
     }
@@ -89,12 +92,15 @@ class CourseCollection implements Contracts\CourseCollection
         $courses = [];
 
         foreach ($this->courses as $course) {
-            $courses[$course->getIsoCode()] = $course;
+            $courses[$course->isoCode] = $course;
         }
 
         return $courses;
     }
 
+    /**
+     * @param array<Course> $courses
+     */
     protected function newCollection(array $courses): self
     {
         return new self($courses, $this->date);

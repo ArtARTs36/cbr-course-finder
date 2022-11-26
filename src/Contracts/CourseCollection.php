@@ -4,6 +4,9 @@ namespace ArtARTs36\CbrCourseFinder\Contracts;
 
 use ArtARTs36\CbrCourseFinder\Data\Course;
 
+/**
+ * @extends \IteratorAggregate<Course>
+ */
 interface CourseCollection extends \Countable, \IteratorAggregate
 {
     public function getByIsoCode(string $isoCode): ?Course;

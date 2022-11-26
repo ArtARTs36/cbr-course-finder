@@ -24,13 +24,16 @@ class Finder implements Contracts\Finder
 
     public function findOnDate(\DateTimeInterface $date): Contracts\CourseCollection
     {
-        return $this
-            ->responseToCollection(
-                json_decode(
-                    $this->sendRequest($this->urlResolver->resolve($date)),
-                    true,
-                )
-            );
+        $response = json_decode(
+            $this->sendRequest($this->urlResolver->resolve($date)),
+            true,
+        );
+
+        if (! is_array($response)) {
+            throw new InvalidDataException('Unexpected response');
+        }
+
+        return $this->responseToCollection($response);
     }
 
     /**
@@ -50,10 +53,15 @@ class Finder implements Contracts\Finder
     }
 
     /**
+     * @param array<mixed> $response
      * @throws InvalidDataException
      */
     protected function responseToCollection(array $response): CourseCollection
     {
+        if (! isset($response['Date']) || ! is_string($response['Date'])) {
+            throw new InvalidDataException('Invalid response.Date');
+        }
+
         $date = new \DateTime($response['Date']);
 
         return new CourseCollection($this->hydrator->hydrate($response), $date);

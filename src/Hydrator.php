@@ -11,7 +11,7 @@ final class Hydrator implements Contracts\Hydrator
     {
         $courses = [];
 
-        if (! isset($raw['Valute'])) {
+        if (! isset($raw['Valute']) || ! is_iterable($raw['Valute'])) {
             throw new InvalidDataException('No data found in response.Valute');
         }
 
@@ -23,6 +23,7 @@ final class Hydrator implements Contracts\Hydrator
     }
 
     /**
+     * @param array<mixed> $row
      * @throws InvalidDataException
      */
     private function hydrateRow(array $row): Course
@@ -50,7 +51,7 @@ final class Hydrator implements Contracts\Hydrator
         return new Course(
             $row['CharCode'],
             $row['Name'],
-            $row['Nominal'],
+            (float) $row['Nominal'],
             $row['Value'],
             $row['Previous'],
         );
