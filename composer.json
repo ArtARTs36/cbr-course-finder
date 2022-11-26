@@ -7,7 +7,8 @@
         "ext-json": "*",
         "psr/http-client": "1.0.x-dev",
         "guzzlehttp/psr7": "2.4.x-dev",
-        "psr/http-client-implementation": "^1.0"
+        "psr/http-client-implementation": "^1.0",
+        "phpunit/phpunit": "^9.5"
     },
     "require-dev": {
         "guzzlehttp/guzzle": ">= 6.0",
@@ -26,9 +27,17 @@
             "ArtARTs36\\CbrCourseFinder\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "ArtARTs36\\CbrCourseFinder\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "stat-analyse": [
             "./vendor/bin/phpstan analyse"
+        ],
+        "test": [
+            "./vendor/bin/phpunit -v --coverage-text --colors=always --configuration phpunit.xml"
         ]
     }
 }
