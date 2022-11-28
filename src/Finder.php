@@ -35,7 +35,7 @@ class Finder implements Contracts\Finder
             throw new InvalidDataException(sprintf('Unexpected response: %s', $response));
         }
 
-        return $this->responseToCourseBag($respDecoded);
+        return $this->responseToCourseBag($respDecoded, $date);
     }
 
     /**
@@ -59,10 +59,10 @@ class Finder implements Contracts\Finder
      * @throws InvalidDataException
      * @throws CourseNotSetException
      */
-    protected function responseToCourseBag(array $response): CourseBag
+    protected function responseToCourseBag(array $response, \DateTimeInterface $date): CourseBag
     {
         if (isset($response['code']) && $response['code'] === 404) {
-            throw new CourseNotSetException();
+            throw CourseNotSetException::create($date);
         }
 
         if (! isset($response['Date']) || ! is_string($response['Date'])) {
