@@ -11,9 +11,10 @@ use ArtARTs36\CbrCourseFinder\Data\CurrencyCode;
 interface CourseCollection extends \Countable, \IteratorAggregate
 {
     /**
-     * Get Course by ISO code.
+     * Get courses array.
+     * @return array<Course>
      */
-    public function getByIsoCode(CurrencyCode $isoCode): ?Course;
+    public function all(): array;
 
     /**
      * Get first course.

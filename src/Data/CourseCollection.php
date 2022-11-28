@@ -23,13 +23,6 @@ class CourseCollection implements Contracts\CourseCollection
         return $this->courses;
     }
 
-    public function getByIsoCode(CurrencyCode $isoCode): ?Course
-    {
-        return $this->filter(function (Course $course) use ($isoCode) {
-            return $course->currency->isoCode->value === $isoCode->value;
-        })->first();
-    }
-
     public function filterByIsoCodes(array $codes): Contracts\CourseCollection
     {
         $codeMap = [];

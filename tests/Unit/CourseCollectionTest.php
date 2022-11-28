@@ -39,35 +39,6 @@ final class CourseCollectionTest extends TestCase
         self::assertEquals($expected, (new CourseCollection($courses))->mapOnIsoCode());
     }
 
-    public function providerForTestGetByIsoCode(): array
-    {
-        return [
-            [
-                [
-                    new Course(new Currency(CurrencyCode::ISO_AMD, ''), 1, 1, 1),
-                ],
-                CurrencyCode::ISO_RUB,
-                null,
-            ],
-            [
-                [
-                    $c1 = new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
-                ],
-                CurrencyCode::ISO_RUB,
-                $c1,
-            ],
-        ];
-    }
-
-    /**
-     * @covers \ArtARTs36\CbrCourseFinder\Data\CourseCollection::getByIsoCode
-     * @dataProvider providerForTestGetByIsoCode
-     */
-    public function testGetByIsoCode(array $data, CurrencyCode $isoCode, ?Course $expected): void
-    {
-        self::assertEquals($expected, (new CourseCollection($data))->getByIsoCode($isoCode));
-    }
-
     public function providerForTestFilterByIsoCodes(): array
     {
         return [
@@ -75,14 +46,14 @@ final class CourseCollectionTest extends TestCase
                 [
                     new Course(new Currency(CurrencyCode::ISO_AMD, ''), 1, 1, 1),
                 ],
-                CurrencyCode::ISO_RUB,
+                [CurrencyCode::ISO_RUB],
                 [],
             ],
             [
                 [
                     $c1 = new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
                 ],
-                CurrencyCode::ISO_RUB,
+                [CurrencyCode::ISO_RUB],
                 [$c1],
             ],
         ];
@@ -90,11 +61,11 @@ final class CourseCollectionTest extends TestCase
 
     /**
      * @covers \ArtARTs36\CbrCourseFinder\Data\CourseCollection::filterByIsoCodes
-     * @dataProvider providerForTestGetByIsoCode
+     * @dataProvider providerForTestFilterByIsoCodes
      */
-    public function testFilterByIsoCodes(array $data, CurrencyCode $isoCode, array $expected): void
+    public function testFilterByIsoCodes(array $data, array $isoCode, array $expected): void
     {
-        self::assertEquals($expected, (new CourseCollection($data))->getByIsoCode($isoCode));
+        self::assertEquals($expected, (new CourseCollection($data))->filterByIsoCodes($isoCode)->all());
     }
 
     public function providerForTestIsEmpty(): array
