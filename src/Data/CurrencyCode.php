@@ -2,41 +2,41 @@
 
 namespace ArtARTs36\CbrCourseFinder\Data;
 
-class CurrencyCode
+enum CurrencyCode: string
 {
-    public const ISO_RUB = 'RUB'; // Российский рубль
-    public const ISO_AUD = 'AUD'; // Австралийский доллар
-    public const ISO_AZN = 'AZN'; // Азербайджанский манат
-    public const ISO_GBP = 'GBP'; // Фунт стерлингов Соединенного королевства
-    public const ISO_AMD = 'AMD'; // Армянских драмов
-    public const ISO_BYN = 'BYN'; // Белорусский рубль
-    public const ISO_BGN = 'BGN'; // Болгарский лев
-    public const ISO_BRL = 'BRL'; // Бразильский реал
-    public const ISO_HUF = 'HUF'; // Венгерских форинтов
-    public const ISO_HKD = 'HKD'; // Гонконгских долларов
-    public const ISO_DKK = 'DKK'; // Датская крона
-    public const ISO_USD = 'USD'; // Доллар США
-    public const ISO_EUR = 'EUR'; // Евро
-    public const ISO_INR = 'INR'; // Индийских рупий
-    public const ISO_KZT = 'KZT'; // Казахстанских тенге
-    public const ISO_CAD = 'CAD'; // Канадский доллар
-    public const ISO_KGS = 'KGS'; // Киргизских сомов
-    public const ISO_CNY = 'CNY'; // Китайский юань
-    public const ISO_MDL = 'MDL'; // Молдавских леев
-    public const ISO_NOK = 'NOK'; // Норвежских крон
-    public const ISO_PLN = 'PLN'; // Польский злотый
-    public const ISO_RON = 'RON'; // Румынский лей
-    public const ISO_XDR = 'XDR'; // СДР (специальные права заимствования)
-    public const ISO_SGD = 'SGD'; // Сингапурский доллар
-    public const ISO_TJS = 'TJS'; // Таджикских сомони
-    public const ISO_TRY = 'TRY'; // Турецкая лира
-    public const ISO_TMT = 'TMT'; // Новый туркменский манат
-    public const ISO_UZS = 'UZS'; // Узбекских сумов
-    public const ISO_UAH = 'UAH'; // Украинских гривен
-    public const ISO_CZK = 'CZK'; // Чешских крон
-    public const ISO_SEK = 'SEK'; // Шведских крон
-    public const ISO_CHF = 'CHF'; // Швейцарский франк
-    public const ISO_ZAR = 'ZAR'; // Южноафриканских рэндов
-    public const ISO_KRW = 'KRW'; // Вон Республики Корея
-    public const ISO_JPY = 'JPY'; // Японских иен
+    case ISO_RUB = 'RUB'; // Российский рубль
+    case ISO_AUD = 'AUD'; // Австралийский доллар
+    case ISO_AZN = 'AZN'; // Азербайджанский манат
+    case ISO_GBP = 'GBP'; // Фунт стерлингов Соединенного королевства
+    case ISO_AMD = 'AMD'; // Армянских драмов
+    case ISO_BYN = 'BYN'; // Белорусский рубль
+    case ISO_BGN = 'BGN'; // Болгарский лев
+    case ISO_BRL = 'BRL'; // Бразильский реал
+    case ISO_HUF = 'HUF'; // Венгерских форинтов
+    case ISO_HKD = 'HKD'; // Гонконгских долларов
+    case ISO_DKK = 'DKK'; // Датская крона
+    case ISO_USD = 'USD'; // Доллар США
+    case ISO_EUR = 'EUR'; // Евро
+    case ISO_INR = 'INR'; // Индийских рупий
+    case ISO_KZT = 'KZT'; // Казахстанских тенге
+    case ISO_CAD = 'CAD'; // Канадский доллар
+    case ISO_KGS = 'KGS'; // Киргизских сомов
+    case ISO_CNY = 'CNY'; // Китайский юань
+    case ISO_MDL = 'MDL'; // Молдавских леев
+    case ISO_NOK = 'NOK'; // Норвежских крон
+    case ISO_PLN = 'PLN'; // Польский злотый
+    case ISO_RON = 'RON'; // Румынский лей
+    case ISO_XDR = 'XDR'; // СДР (специальные права заимствования)
+    case ISO_SGD = 'SGD'; // Сингапурский доллар
+    case ISO_TJS = 'TJS'; // Таджикских сомони
+    case ISO_TRY = 'TRY'; // Турецкая лира
+    case ISO_TMT = 'TMT'; // Новый туркменский манат
+    case ISO_UZS = 'UZS'; // Узбекских сумов
+    case ISO_UAH = 'UAH'; // Украинских гривен
+    case ISO_CZK = 'CZK'; // Чешских крон
+    case ISO_SEK = 'SEK'; // Шведских крон
+    case ISO_CHF = 'CHF'; // Швейцарский франк
+    case ISO_ZAR = 'ZAR'; // Южноафриканских рэндов
+    case ISO_KRW = 'KRW'; // Вон Республики Корея
+    case ISO_JPY = 'JPY'; // Японских иен
 }

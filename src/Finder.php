@@ -2,7 +2,9 @@
 
 namespace ArtARTs36\CbrCourseFinder;
 
+use ArtARTs36\CbrCourseFinder\Data\CourseBag;
 use ArtARTs36\CbrCourseFinder\Data\CourseCollection;
+use ArtARTs36\CbrCourseFinder\Data\CurrencyCode;
 use ArtARTs36\CbrCourseFinder\Exception\CourseNotSetException;
 use ArtARTs36\CbrCourseFinder\Exception\InvalidDataException;
 use GuzzleHttp\Psr7\Request;
@@ -23,18 +25,17 @@ class Finder implements Contracts\Finder
         $this->hydrator = $hydrator ?? new Hydrator();
     }
 
-    public function findOnDate(\DateTimeInterface $date): Contracts\CourseCollection
+    public function findOnDate(\DateTimeInterface $date): CourseBag
     {
-        $response = json_decode(
-            $this->sendRequest($this->urlResolver->resolve($date)),
-            true,
-        );
+        $response = $this->sendRequest($this->urlResolver->resolve($date));
 
-        if (! is_array($response)) {
-            throw new InvalidDataException('Unexpected response');
+        $respDecoded = json_decode($response, true);
+
+        if (! is_array($respDecoded)) {
+            throw new InvalidDataException(sprintf('Unexpected response: %s', $response));
         }
 
-        return $this->responseToCollection($response);
+        return $this->responseToCourseBag($respDecoded);
     }
 
     /**
@@ -58,7 +59,7 @@ class Finder implements Contracts\Finder
      * @throws InvalidDataException
      * @throws CourseNotSetException
      */
-    protected function responseToCollection(array $response): CourseCollection
+    protected function responseToCourseBag(array $response): CourseBag
     {
         if (isset($response['code']) && $response['code'] === 404) {
             throw new CourseNotSetException();
@@ -68,8 +69,8 @@ class Finder implements Contracts\Finder
             throw new InvalidDataException('Invalid response.Date');
         }
 
-        $date = new \DateTime($response['Date']);
+        $courses = new CourseCollection($this->hydrator->hydrate($response));
 
-        return new CourseCollection($this->hydrator->hydrate($response), $date);
+        return new CourseBag($courses, new \DateTime($response['Date']), CurrencyCode::ISO_RUB);
     }
 }

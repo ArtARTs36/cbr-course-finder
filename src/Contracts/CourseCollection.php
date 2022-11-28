@@ -20,14 +20,9 @@ interface CourseCollection extends \Countable, \IteratorAggregate
     public function first(): ?Course;
 
     /**
-     * Get actual date.
-     */
-    public function getActualDate(): \DateTimeInterface;
-
-    /**
      * Get Course by name.
      */
-    public function getByName(string $name): ?Course;
+    public function getByCurrencyName(string $name): ?Course;
 
     /**
      * Filter by list of ISO codes.

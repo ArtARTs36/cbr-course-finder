@@ -4,6 +4,8 @@ namespace ArtARTs36\CbrCourseFinder\Tests\Unit;
 
 use ArtARTs36\CbrCourseFinder\Data\Course;
 use ArtARTs36\CbrCourseFinder\Data\CourseCollection;
+use ArtARTs36\CbrCourseFinder\Data\Currency;
+use ArtARTs36\CbrCourseFinder\Data\CurrencyCode;
 use PHPUnit\Framework\TestCase;
 
 final class CourseCollectionTest extends TestCase
@@ -17,12 +19,12 @@ final class CourseCollectionTest extends TestCase
             ],
             [
                 [
-                    $c1 = new Course('key1', '', 1, 1, 1),
-                    $c2 = new Course('key2', '', 1, 1, 1),
+                    $c1 = new Course(new Currency(CurrencyCode::ISO_AMD, ''), 10, 1, 1),
+                    $c2 = new Course(new Currency(CurrencyCode::ISO_AUD, ''), 10, 1, 1),
                 ],
                 [
-                    'key1' => $c1,
-                    'key2' => $c2,
+                    'AMD' => $c1,
+                    'AUD' => $c2,
                 ],
             ],
         ];
@@ -34,6 +36,6 @@ final class CourseCollectionTest extends TestCase
      */
     public function testMapOnIsoCode(array $courses, array $expected): void
     {
-        self::assertEquals($expected, (new CourseCollection($courses, new \DateTime()))->mapOnIsoCode());
+        self::assertEquals($expected, (new CourseCollection($courses))->mapOnIsoCode());
     }
 }
