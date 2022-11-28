@@ -25,7 +25,7 @@ class Finder implements Contracts\Finder
         $this->hydrator = $hydrator ?? new Hydrator();
     }
 
-    public function findOnDate(\DateTimeInterface $date): CourseBag
+    public function findAt(\DateTimeInterface $date): CourseBag
     {
         $response = $this->sendRequest($this->urlResolver->resolve($date));
 

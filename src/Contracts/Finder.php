@@ -10,5 +10,5 @@ interface Finder
      * Find courses on date.
      * @throws SearchException
      */
-    public function findOnDate(\DateTimeInterface $date): CourseBag;
+    public function findAt(\DateTimeInterface $date): CourseBag;
 }

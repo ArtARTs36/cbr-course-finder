@@ -15,10 +15,10 @@ You must have implementation of psr/http-client-implementation
 
 Run command: `composer require artarts36/cbr-course-finder`
 
-## Usage 
+## Usage
 
 ```php
 $f = new \ArtARTs36\CbrCourseFinder\Finder(new \GuzzleHttp\Client());
 
-var_dump($f->findOnDate(new \DateTime())->mapOnIsoCode());
+var_dump($f->findAt(new \DateTime())->mapOnIsoCode());
 ```
