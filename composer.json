@@ -3,7 +3,7 @@
     "description": "CBR Course Finder",
     "type": "library",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-json": "*",
         "psr/http-client": "^1.0",
         "guzzlehttp/psr7": "^2.4",

@@ -3,6 +3,8 @@
 namespace ArtARTs36\CbrCourseFinder;
 
 use ArtARTs36\CbrCourseFinder\Data\Course;
+use ArtARTs36\CbrCourseFinder\Data\Currency;
+use ArtARTs36\CbrCourseFinder\Data\CurrencyCode;
 use ArtARTs36\CbrCourseFinder\Exception\InvalidDataException;
 
 final class Hydrator implements Contracts\Hydrator
@@ -49,8 +51,7 @@ final class Hydrator implements Contracts\Hydrator
         }
 
         return new Course(
-            $row['CharCode'],
-            $row['Name'],
+            new Currency(CurrencyCode::from($row['CharCode']), $row['Name']),
             (float) $row['Nominal'],
             $row['Value'],
             $row['Previous'],

@@ -3,6 +3,7 @@
 namespace ArtARTs36\CbrCourseFinder\Contracts;
 
 use ArtARTs36\CbrCourseFinder\Data\Course;
+use ArtARTs36\CbrCourseFinder\Data\CurrencyCode;
 
 /**
  * @extends \IteratorAggregate<Course>
@@ -10,9 +11,10 @@ use ArtARTs36\CbrCourseFinder\Data\Course;
 interface CourseCollection extends \Countable, \IteratorAggregate
 {
     /**
-     * Get Course by ISO code.
+     * Get courses array.
+     * @return array<Course>
      */
-    public function getByIsoCode(string $isoCode): ?Course;
+    public function all(): array;
 
     /**
      * Get first course.
@@ -20,18 +22,8 @@ interface CourseCollection extends \Countable, \IteratorAggregate
     public function first(): ?Course;
 
     /**
-     * Get actual date.
-     */
-    public function getActualDate(): \DateTimeInterface;
-
-    /**
-     * Get Course by name.
-     */
-    public function getByName(string $name): ?Course;
-
-    /**
      * Filter by list of ISO codes.
-     * @param array<string> $codes
+     * @param array<CurrencyCode> $codes
      */
     public function filterByIsoCodes(array $codes): CourseCollection;
 

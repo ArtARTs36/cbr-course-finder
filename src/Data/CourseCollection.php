@@ -11,16 +11,16 @@ class CourseCollection implements Contracts\CourseCollection
      */
     public function __construct(
         private array $courses,
-        private \DateTimeInterface $date,
     ) {
         //
     }
 
-    public function getByIsoCode(string $isoCode): ?Course
+    /**
+     * @return array<Course>
+     */
+    public function all(): array
     {
-        return $this->filter(function (Course $course) use ($isoCode) {
-            return $course->equalsIsoCode($isoCode);
-        })->first();
+        return $this->courses;
     }
 
     public function filterByIsoCodes(array $codes): Contracts\CourseCollection
@@ -28,19 +28,12 @@ class CourseCollection implements Contracts\CourseCollection
         $codeMap = [];
 
         foreach ($codes as $code) {
-            $codeMap[$code] = true;
+            $codeMap[$code->value] = true;
         }
 
         return $this->filter(function (Course $course) use ($codeMap) {
-            return isset($codeMap[$course->isoCode]);
+            return isset($codeMap[$course->currency->isoCode->value]);
         });
-    }
-
-    public function getByName(string $name): ?Course
-    {
-        return $this->filter(function (Course $course) use ($name) {
-            return $course->equalsName($name);
-        })->first();
     }
 
     /**
@@ -76,11 +69,6 @@ class CourseCollection implements Contracts\CourseCollection
         return $this->courses[array_key_first($this->courses)];
     }
 
-    public function getActualDate(): \DateTimeInterface
-    {
-        return $this->date;
-    }
-
     public function isEmpty(): bool
     {
         return $this->count() === 0;
@@ -92,7 +80,7 @@ class CourseCollection implements Contracts\CourseCollection
         $courses = [];
 
         foreach ($this->courses as $course) {
-            $courses[$course->isoCode] = $course;
+            $courses[$course->currency->isoCode->value] = $course;
         }
 
         return $courses;
@@ -103,6 +91,6 @@ class CourseCollection implements Contracts\CourseCollection
      */
     protected function newCollection(array $courses): self
     {
-        return new self($courses, $this->date);
+        return new self($courses);
     }
 }
