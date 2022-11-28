@@ -38,4 +38,119 @@ final class CourseCollectionTest extends TestCase
     {
         self::assertEquals($expected, (new CourseCollection($courses))->mapOnIsoCode());
     }
+
+    public function providerForTestGetByIsoCode(): array
+    {
+        return [
+            [
+                [
+                    new Course(new Currency(CurrencyCode::ISO_AMD, ''), 1, 1, 1),
+                ],
+                CurrencyCode::ISO_RUB,
+                null,
+            ],
+            [
+                [
+                    $c1 = new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
+                ],
+                CurrencyCode::ISO_RUB,
+                $c1,
+            ],
+        ];
+    }
+
+    /**
+     * @covers \ArtARTs36\CbrCourseFinder\Data\CourseCollection::getByIsoCode
+     * @dataProvider providerForTestGetByIsoCode
+     */
+    public function testGetByIsoCode(array $data, CurrencyCode $isoCode, ?Course $expected): void
+    {
+        self::assertEquals($expected, (new CourseCollection($data))->getByIsoCode($isoCode));
+    }
+
+    public function providerForTestFilterByIsoCodes(): array
+    {
+        return [
+            [
+                [
+                    new Course(new Currency(CurrencyCode::ISO_AMD, ''), 1, 1, 1),
+                ],
+                CurrencyCode::ISO_RUB,
+                [],
+            ],
+            [
+                [
+                    $c1 = new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
+                ],
+                CurrencyCode::ISO_RUB,
+                [$c1],
+            ],
+        ];
+    }
+
+    /**
+     * @covers \ArtARTs36\CbrCourseFinder\Data\CourseCollection::filterByIsoCodes
+     * @dataProvider providerForTestGetByIsoCode
+     */
+    public function testFilterByIsoCodes(array $data, CurrencyCode $isoCode, array $expected): void
+    {
+        self::assertEquals($expected, (new CourseCollection($data))->getByIsoCode($isoCode));
+    }
+
+    public function providerForTestIsEmpty(): array
+    {
+        return [
+            [
+                [],
+                true,
+            ],
+            [
+                [
+                    new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
+                ],
+                false,
+            ],
+        ];
+    }
+
+    /**
+     * @covers \ArtARTs36\CbrCourseFinder\Data\CourseCollection::isEmpty
+     * @dataProvider providerForTestIsEmpty
+     */
+    public function testIsEmpty(array $data, bool $expected): void
+    {
+        self::assertEquals($expected, (new CourseCollection($data))->isEmpty());
+    }
+
+    public function providerForTestCount(): array
+    {
+        return [
+            [
+                [],
+                0,
+            ],
+            [
+                [
+                    new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
+                ],
+                1,
+            ],
+            [
+                [
+                    new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
+                    new Course(new Currency(CurrencyCode::ISO_RUB, ''), 1, 1, 1),
+                ],
+                2,
+            ],
+        ];
+    }
+
+    /**
+     * @covers \ArtARTs36\CbrCourseFinder\Data\CourseCollection::count
+     * @dataProvider providerForTestCount
+     */
+    public function testCount(array $data, int $expected): void
+    {
+        self::assertCount($expected, new CourseCollection($data));
+    }
 }

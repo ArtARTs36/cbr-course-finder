@@ -15,10 +15,15 @@ class CourseCollection implements Contracts\CourseCollection
         //
     }
 
-    public function getByIsoCode(string $isoCode): ?Course
+    public function all(): array
+    {
+        return $this->courses;
+    }
+
+    public function getByIsoCode(CurrencyCode $isoCode): ?Course
     {
         return $this->filter(function (Course $course) use ($isoCode) {
-            return $course->currency->isoCode->value === $isoCode;
+            return $course->currency->isoCode->value === $isoCode->value;
         })->first();
     }
 
@@ -27,19 +32,12 @@ class CourseCollection implements Contracts\CourseCollection
         $codeMap = [];
 
         foreach ($codes as $code) {
-            $codeMap[$code] = true;
+            $codeMap[$code->value] = true;
         }
 
         return $this->filter(function (Course $course) use ($codeMap) {
             return isset($codeMap[$course->currency->isoCode->value]);
         });
-    }
-
-    public function getByCurrencyName(string $name): ?Course
-    {
-        return $this->filter(function (Course $course) use ($name) {
-            return $course->currency->name === $name;
-        })->first();
     }
 
     /**
