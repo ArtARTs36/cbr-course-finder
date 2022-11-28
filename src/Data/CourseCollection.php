@@ -15,6 +15,9 @@ class CourseCollection implements Contracts\CourseCollection
         //
     }
 
+    /**
+     * @return array<Course>
+     */
     public function all(): array
     {
         return $this->courses;
